@@ -1,5 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Custom Webpack configuration
+  webpack(config) {
+    config.optimization.splitChunks = {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    };
+    return config;
+  },
+
+  // Rewrites configuration
   async rewrites() {
     return [
       {
@@ -10,10 +25,13 @@ const nextConfig = {
         source: '/ingest/:path*',
         destination: 'https://us.i.posthog.com/:path*',
       },
-    ]
+    ];
   },
+
   // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
+
+  // Image optimization settings
   images: {
     remotePatterns: [
       {
@@ -23,6 +41,8 @@ const nextConfig = {
       },
     ],
   },
+
+  // TypeScript configuration
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
@@ -30,7 +50,9 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-  staticPageGenerationTimeout: 180,
-}
 
-export default nextConfig
+  // Static page generation timeout
+  staticPageGenerationTimeout: 180,
+};
+
+export default nextConfig;
