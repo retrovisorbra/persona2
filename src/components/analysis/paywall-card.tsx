@@ -42,7 +42,7 @@ export const PaywallCard: React.FC = () => {
     },
   })
 
-const paywallFlag = '1000'; // Replace with your logic
+const paywallFlag = '100'; // Replace with your logic
 
   // console.log('paywall flag', paywallFlag, searchParams.get('stripe'))
 
