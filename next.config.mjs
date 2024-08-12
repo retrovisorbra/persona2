@@ -1,18 +1,21 @@
 /** @type {import('next').NextConfig} */
+const CompressionPlugin = require('compression-webpack-plugin');
+
 const nextConfig = {
-  // Commented out Webpack customization for debugging
-  // webpack(config) {
-  //   config.optimization.splitChunks = {
-  //     cacheGroups: {
-  //       commons: {
-  //         test: /[\\/]node_modules[\\/]/,
-  //         name: 'vendors',
-  //         chunks: 'all',
-  //       },
-  //     },
-  //   };
-  //   return config;
-  // },
+  webpack(config) {
+    // Add the compression plugin to the webpack config
+    config.plugins.push(
+      new CompressionPlugin({
+        filename: '[path][base].gz',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg)$/,
+        threshold: 10240,
+        minRatio: 0.8,
+      })
+    );
+
+    return config;
+  },
 
   async rewrites() {
     return [
