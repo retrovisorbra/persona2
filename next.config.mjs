@@ -1,6 +1,7 @@
-/** @type {import('next').NextConfig} */
-const CompressionPlugin = require('compression-webpack-plugin');
+// Import the necessary plugin using ES module syntax
+import CompressionPlugin from 'compression-webpack-plugin';
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
     // Add the compression plugin to the webpack config
