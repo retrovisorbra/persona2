@@ -1,10 +1,7 @@
-// Import the necessary plugin using ES module syntax
-import CompressionPlugin from 'compression-webpack-plugin';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
-    // Add aggressive chunk splitting
+    // Remove the CompressionPlugin temporarily to isolate the issue
     config.optimization = {
       splitChunks: {
         chunks: 'all',
@@ -24,17 +21,6 @@ const nextConfig = {
         },
       },
     };
-
-    // Add the compression plugin to the webpack config
-    config.plugins.push(
-      new CompressionPlugin({
-        filename: '[path][base].gz',
-        algorithm: 'gzip',
-        test: /\.(js|css|html|svg)$/,
-        threshold: 10240,
-        minRatio: 0.8,
-      })
-    );
 
     return config;
   },
