@@ -1,19 +1,5 @@
-import withBundleAnalyzer from '@next/bundle-analyzer';
-
 /** @type {import('next').NextConfig} */
-const nextConfig = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-})({
-  webpack(config) {
-    // Enable tree shaking by ensuring that only the used exports are retained in the final bundle
-    config.optimization.usedExports = true;
-
-    // Enable minification to reduce the size of JavaScript files by removing unnecessary code
-    config.optimization.minimize = true;
-
-    return config;
-  },
-
+const nextConfig = {
   async rewrites() {
     return [
       {
@@ -24,8 +10,9 @@ const nextConfig = withBundleAnalyzer({
         source: '/ingest/:path*',
         destination: 'https://us.i.posthog.com/:path*',
       },
-    ];
+    ]
   },
+  // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
   images: {
     remotePatterns: [
@@ -37,9 +24,13 @@ const nextConfig = withBundleAnalyzer({
     ],
   },
   typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
     ignoreBuildErrors: true,
   },
   staticPageGenerationTimeout: 180,
-});
+}
 
-export default nextConfig;
+export default nextConfig
