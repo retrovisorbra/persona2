@@ -1,13 +1,16 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+import withBundleAnalyzer from '@next/bundle-analyzer';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})({
   webpack(config) {
-    // Enable tree shaking and minification
+    // Enable tree shaking by ensuring that only the used exports are retained in the final bundle
     config.optimization.usedExports = true;
+
+    // Enable minification to reduce the size of JavaScript files by removing unnecessary code
     config.optimization.minimize = true;
+
     return config;
   },
 
