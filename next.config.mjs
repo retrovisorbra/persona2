@@ -1,12 +1,13 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withBundleAnalyzer({
   webpack(config) {
-    // Enable tree shaking by ensuring that only the used exports are retained in the final bundle
+    // Enable tree shaking and minification
     config.optimization.usedExports = true;
-
-    // Enable minification to reduce the size of JavaScript files by removing unnecessary code
     config.optimization.minimize = true;
-
     return config;
   },
 
@@ -36,6 +37,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   staticPageGenerationTimeout: 180,
-};
+});
 
 export default nextConfig;
